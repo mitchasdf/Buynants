@@ -9,6 +9,8 @@ DISCLAIMER: The tools provided on this repository are in no way a means of encou
 
 Note that this script is set to run once every 50 miliseconds, but due to some abhorrent standards that have arose over the past few years (as of mid-2022), browsers will prevent this type of activity and impose a limit of 1,000 miliseconds (20 times slower than my intended running speed). So in order for me to combat this, specifically for google chrome, I need to have binance open in a completely separate instance of chrome and never minimized it and never have any other tabs open in that instance. This patch on behalf of these devs was apparently in order to save battery life on devices. The penalty for "saving battery life" is such that scripts running in what is considered "the background" can not run more than once every 1 second which consequently causes a lot of malfunctions in scripts which run on a continuous loop, such as this script. Keeping a separate chrome instance never minimized is the only way to not have that chrome tab fall under "the background". To read about this elsewhere, search for "chrome timer throttling".
 
+The tools were built for a specific mode of view, seen in settings.png
+
 With that nonsensical jank out of the road; The tools provided are as follows:
 
 A basic 10-minute long 1-second chart that can't be magnified or panned. Notches placed horizontally for each minute. Notches placed vertically for each 1% in price difference (this adjusts over time as the price moves). Data is auto-fit to the drawing area. Data accumulates over time, as in, you need to be viewing 1 trading-pair for 10 minutes in order to fill up the chart.
