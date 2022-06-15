@@ -8,7 +8,7 @@ DISCLAIMER: The tools provided on this repository are in no way a means of encou
 
 The tools provided are as follows:
 
-A basic 10-minute long 1-second chart that can't be magnified. Notches placed horizontally for each minute. Notches placed vertically for each 1% in price difference (this adjusts over time as the price moves).
+A basic 10-minute long 1-second chart that can't be magnified or panned. Notches placed horizontally for each minute. Notches placed vertically for each 1% in price difference (this adjusts over time as the price moves).
 
 An orderbook and sales history comparison visualisation
 
