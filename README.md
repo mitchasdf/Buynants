@@ -25,4 +25,4 @@ F1 and F2 can be used to set a buy or sell offer at 30% or 70% respectively of t
 
 Escape can be used to cancel your top-most offer, without even needing to have the open orders interface open.
 
-!!NONE OF THESE HOTKEYS WORK IF YOUR CURRENT FOCUS IS THE TRADING VIEW WINDOW!! - So if you click the main chart at all, you need to click somewhere else that isn't the chart. Inconvenient I know but I am tired of fighting with the code on the page and I don't know how to fix the issue.
+!!NONE OF THESE HOTKEYS WORK IF YOUR CURRENT FOCUS IS THE TRADING VIEW WINDOW!! - So if you click the main chart at all, you need to click somewhere else that isn't the chart. Inconvenient I know but I am tired of fighting with the code on the page and I don't know how to fix the issue. The scroll wheel seems to be an exception here and will still edit the text boxes while your focus is the trading view.
