@@ -311,19 +311,27 @@
         //        }
         //    }
         //}
-        let fundsAvailElement = document.querySelector(sellFundsSelector);
-        if (fundsAvailElement != null) {
-            let avail = fundsAvailElement.innerText;
-            if (avail.includes(" ")) {
-                let coin = avail.substring(avail.indexOf(" "), avail.length);
-                if (coin != coinCurrentlyViewing) {
-                    oneSecChart = [];
-                    currentSecHigh = 0;
-                    currentSecLow = 0;
-                    currentSecOpen = 0;
-                    currentSecClose = 0;
-                    coinCurrentlyViewing = coin;
-                    //alert("viewing new coin: " + coin);
+        let sellFundsAvailElement = document.querySelector(sellFundsSelector);
+        if (sellFundsAvailElement != null) {
+            let sellAvail = sellFundsAvailElement.innerText;
+            if (sellAvail.includes(" ")) {
+                let buyFundsAvailElement = document.querySelector(buyFundsSelector);
+                if (buyFundsAvailElement != null) {
+                    let buyAvail = sellFundsAvailElement.innerText;
+                    if (buyAvail.includes(" ")) {
+                        let coin1 = buyAvail.substring(buyAvail.indexOf(" "), buyAvail.length);
+                        let coin2 = sellAvail.substring(sellAvail.indexOf(" "), sellAvail.length);
+                        let coin = coin1 + "/" + coin2;
+                        if (coin != coinCurrentlyViewing) {
+                            oneSecChart = [];
+                            currentSecHigh = 0;
+                            currentSecLow = 0;
+                            currentSecOpen = 0;
+                            currentSecClose = 0;
+                            coinCurrentlyViewing = coin;
+                            //alert("viewing new coin: " + coin);
+                        }
+                    }
                 }
             }
         }
