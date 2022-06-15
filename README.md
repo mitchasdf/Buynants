@@ -21,10 +21,10 @@ Various hotkeys for the spot trading interface (in the Limit tab only):
 
 The scroll wheel can be used to set a price for either the base or quote currencies, while the spacebar can be used to click either the buy or sell button depending on which currency was last scrolled in. Holding in the shift key will multiply the amount to move by x8 for that scroll. Pressing the tilde key will toggle micro-mode. Micro-mode will step by the smallest possible amount when scrolling. Scrolling in either price box will set the amount box to the maximum it can be set to. There is currently no limiter on this, sorry.
 
-*if the scroll wheel does not work, try clicking the "Limit" button.
-
 F1 and F2 can be used to set a buy or sell offer at 30% or 70% respectively of the high and low price of the last 3 seconds (for use during massive trade volume and volatility). Shift can also be held to set a panic buy or sell order, as in, 50% of the diff between high/low under low or over high respectively.
 
 Escape can be used to cancel your top-most offer, without even needing to have the open orders interface open.
+
+*If the hotkeys do not work, try clicking the "Limit" button.
 
 !!NONE OF THESE HOTKEYS WORK IF YOUR CURRENT FOCUS IS THE TRADING VIEW WINDOW!! - So if you click the main chart at all, you need to click somewhere else that isn't the chart. Inconvenient I know but I am tired of fighting with the code on the page and I don't know how to fix the issue. The scroll wheel seems to be an exception here and will still edit the text boxes while your focus is the trading view.
