@@ -11,7 +11,7 @@ Note that this script is set to run once every 50 miliseconds, but due to some a
 
 With that nonsensical jank out of the road; The tools provided are as follows:
 
-A basic 10-minute long 1-second chart that can't be magnified or panned. Notches placed horizontally for each minute. Notches placed vertically for each 1% in price difference (this adjusts over time as the price moves). Data is auto-fit to the drawing area. Data accumulates over time.
+A basic 10-minute long 1-second chart that can't be magnified or panned. Notches placed horizontally for each minute. Notches placed vertically for each 1% in price difference (this adjusts over time as the price moves). Data is auto-fit to the drawing area. Data accumulates over time, as in, you need to be viewing 1 trading-pair for 10 minutes in order to fill up the chart.
 
 An orderbook and sales history comparison visualisation
 
