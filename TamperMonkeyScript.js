@@ -36,6 +36,7 @@
     let colourStagnant = [255, 127, 35, 0.7]; // colour of price not moving
     let colourTimeNotch = [70, 70, 70, 1]; // colour of minute-markers
     let colourOnePercentNotch = [45, 45, 45, 1]; // colour of percent markers
+    let msInOneSec = 1000; // change how many miliseconds each "1-second candlestick" accounts for. i.e. set to 2000 for a 20-minute chart and each candlestick being 2 seconds long.
 
     let colourBadMid = RGBMix(colourBad, colourBackground);
     let colourGoodMid = RGBMix(colourGood, colourBackground);
@@ -70,7 +71,6 @@
     let currentSecClose = 0;
     let msInSecondCycle = 0;
     let oneSecChartLength = 601;
-    let msInOneSec = 1000;
 
     let msSinceOrderBookUpdate = 0;
     let msBetweenOrderBookUpdates = 200;
