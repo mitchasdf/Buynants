@@ -7,10 +7,11 @@ Requires a user script loader installed on your browser.
 
 DISCLAIMER: The tools provided on this repository are in no way a means of encouraging users to engage in financially risky activities. Users of this software agree that they invest their money at their own discretion. This software and the distributor will not be held accountable for any financial losses incurred as a result of regular software operation OR in the event of software failure.
 
+Note that this script is set to run once every 50 miliseconds, but due to some abhorrent standards that have arose over the past few years (as of mid-2022), browsers will stop prevent this type of activity and impose a limit of 1,000 miliseconds (20 times slower than my intended running speed). So in order to combat this, specifically for google chrome, is to have the trading window open in a completely separate instance of chrome and never minimized it and never have any other tabs open in that instance. Thanks chrome devs.
 
 The tools provided are as follows:
 
-A basic 10-minute long 1-second chart that can't be magnified or panned. Notches placed horizontally for each minute. Notches placed vertically for each 1% in price difference (this adjusts over time as the price moves).
+A basic 10-minute long 1-second chart that can't be magnified or panned. Notches placed horizontally for each minute. Notches placed vertically for each 1% in price difference (this adjusts over time as the price moves). Data is auto-fit to the drawing area. Data accumulates over time.
 
 An orderbook and sales history comparison visualisation
 
