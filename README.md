@@ -17,9 +17,11 @@ A basic 10-minute long 1-second chart that can't be magnified or panned. Notches
 
 An orderbook and sales history comparison visualisation
 
-Various hotkeys for the spot trading interface:
+Various hotkeys for the spot trading interface (in the Limit tab only):
 
 The scroll wheel can be used to set a price for either the base or quote currencies, while the spacebar can be used to click either the buy or sell button depending on which currency was last scrolled in. Holding in the shift key will multiply the amount to move by x8 for that scroll. Pressing the tilde key will toggle micro-mode. Micro-mode will step by the smallest possible amount when scrolling. Scrolling in either price box will set the amount box to the maximum it can be set to. There is currently no limiter on this, sorry.
+
+*if the scroll wheel does not work, try clicking the "Limit" button.
 
 F1 and F2 can be used to set a buy or sell offer at 30% or 70% respectively of the high and low price of the last 3 seconds (for use during massive trade volume and volatility). Shift can also be held to set a panic buy or sell order, as in, 50% of the diff between high/low under low or over high respectively.
 
