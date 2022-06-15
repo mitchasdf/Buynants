@@ -3,7 +3,7 @@ Tools for fast-paced spot trading on Binance.
 Was meant for personal use, but I like a public backup since this took a while to get to the state it is in.
 Currently only works on Spot, page needs reloading if you want the hotkeys back after clicking a leverage tab.
 
-DISCLAIMER: The tools provided on this repository are in no way a means of encouraging users to provide in financially risky activities. Users of this software agree that they invest their money at their own discretion. This software and the distributor will not be held accountable for any financial losses incurred as a result of software failure.
+DISCLAIMER: The tools provided on this repository are in no way a means of encouraging users to engage in financially risky activities. Users of this software agree that they invest their money at their own discretion. This software and the distributor will not be held accountable for any financial losses incurred as a result of regular software operation OR in the event of software failure.
 
 
 The tools provided are as follows:
