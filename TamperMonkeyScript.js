@@ -28,8 +28,8 @@
     let steppingScaleToggleKey = "`"; // use this key to toggle between stepping by scale using the previous setting, or stepping by smallest possible step
     let cancelOffersKey = "Escape"; // cancels the topmost offer
     let buySellKey = " "; // this key clicks the buy or sell button depending on which price box you last scrolled in
-    let instantBuyKey = "F1"; // this makes a buy offer instantly that is 28.5% between the lowest and highest traded price in the trade history window
-    let instantSellKey = "F2"; // this makes a sell offer instantly that is 72.5% between the lowest and highest traded price in the trade history window
+    let instantBuyKey = "F1"; // this makes a buy offer instantly that is 28.5% between the lowest and highest traded price in the last 3 seconds
+    let instantSellKey = "F2"; // this makes a sell offer instantly that is 72.5% between the lowest and highest traded price in the last 3 seconds
     let colourBackground = [22, 26, 30, 1]; // the colour of the element behind canvas
     let colourBad = [223, 50, 50, 1]; // the colour of sell power
     let colourGood = [0, 223, 25, 1]; // the colour of buy power
