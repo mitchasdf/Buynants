@@ -2,7 +2,7 @@
 // @name         Buynants
 // @namespace    http://tampermonkey.net/
 // @version      0.1
-// @description  Tools for fast-paced, volatile spot trading on binance. Currently breaks if clicking on leverage tabs.
+// @description  Tools for fast-paced, volatile spot trading on binance. Currently breaks if clicking on leverage tabs, sorry.
 // @author       You
 // @match        https://www.binance.com/*
 // @icon         https://www.google.com/s2/favicons?sz=64&domain=binance.com
@@ -21,22 +21,23 @@
         }
         return result;
     }
-    let milisecondsBetweenUpdates = 50;
+    let milisecondsBetweenUpdates = 1000; // set to something small such as "50" for extreme volatility trading, else 1000 so as to fit with the timer throttle
     let fullDepthByDefault = false; // enable to check the checkbox by default when loading a page
-    let margin = 0.003; // scale amount to offset the opposing currency price box by when scrolling in either
+    let margin = 0.004; // scale amount to offset the opposing currency price box by when scrolling in either
     let steppingScale = 0.001; // scale amount to step by when scrolling in a price box. 0.001 = 0.1%
     let steppingScaleToggleKey = "`"; // use this key to toggle between stepping by scale using the previous setting, or stepping by smallest possible step
     let cancelOffersKey = "Escape"; // cancels the topmost offer
     let buySellKey = " "; // this key clicks the buy or sell button depending on which price box you last scrolled in
     let instantBuyKey = "F1"; // this makes a buy offer instantly that is 28.5% between the lowest and highest traded price in the last 3 seconds
     let instantSellKey = "F2"; // this makes a sell offer instantly that is 72.5% between the lowest and highest traded price in the last 3 seconds
+    let resetKeybindsKey = "F12"; // applies the rest of the keybinds to the text boxes if they are missing them (with a delay of 1 second)
     let colourBackground = [22, 26, 30, 1]; // the colour of the element behind canvas
     let colourBad = [223, 50, 50, 1]; // the colour of sell power
     let colourGood = [0, 223, 25, 1]; // the colour of buy power
     let colourStagnant = [255, 127, 35, 0.7]; // colour of price not moving
     let colourTimeNotch = [70, 70, 70, 1]; // colour of minute-markers
     let colourOnePercentNotch = [45, 45, 45, 1]; // colour of percent markers
-    let msInOneSec = 1000; // change how many miliseconds each "1-second candlestick" accounts for. i.e. set to 2000 for a 20-minute chart and each candlestick being 2 seconds long.
+    let msInOneSec = 5000; // change how many miliseconds each "1-second candlestick" accounts for. i.e. set to 2000 for a 20-minute chart and each candlestick being 2 seconds long.
 
     let colourBadMid = RGBMix(colourBad, colourBackground);
     let colourGoodMid = RGBMix(colourGood, colourBackground);
@@ -84,7 +85,7 @@
     let limitOfferButtonSelector = "div.headingWrap > div > span[data-testid=\"LimitType\"]";
     let offerCancelButtonSelector = "#cancel-order > div > div > svg.normal";
     let lastSaleSelector = "div.list-container > div.list-auto-sizer > div.fixed-size-list > div > div:nth-child(1) > div > div.price.left";
-    let lastSaleTimeSelector = "div.list-container > div.list-auto-sizer > div.fixed-size-list > div > div:nth-child(1) > div > div.text.right";
+    let lastSaleTimeSelector = "div.list-container > div.list-auto-sizer > div.fixed-size-list > div > div:nth-child(1) > div > div.text:nth-child(2)";
     let moreButtonSelector = "#spotOrderbook > div.orderlist-container > div.orderbook-ticker > div > a.more";
     let marketSellPriceSelector = "#spotOrderbook > div.orderlist-container > div.orderbook-list.orderbook-ask.has-overlay > div:nth-child(1) > div.orderbook-list-container > div > div:last-child > div > div.row-content > div.ask-light";
     let marketBuyPriceSelector = "#spotOrderbook > div.orderlist-container > div.orderbook-list.orderbook-bid.has-overlay > div:nth-child(1) > div.orderbook-list-container > div > div:nth-child(1) > div > div.row-content > div.bid-light";
@@ -99,6 +100,18 @@
     let myToggleButtonSelector = emptySpaceSelector + " > input[type=\"checkbox\"]";
     let myOtherEmptySpaceSelector = "#__APP > div > div > div[name=\"header\"] > div > header";
     let notificationSelector = "#__APP > div > div > div > div[class=\"bn-notification-body-wrapper\"] > div[class=\"bn-notification-msg-wrapper\"]";
+    let orderTypeTabSelectorSpot = "#__APP > div > div > div.orderform > div > div > div.tradeSwitchWrap > div.tradeItemSwitchWrap[data-testid=\"spotTab\"]";
+    let orderTypeTabSelectorCross = "#__APP > div > div > div.orderform > div > div > div.tradeSwitchWrap > div.tradeItemSwitchWrap[data-testid=\"crossTab\"]";
+    let orderTypeTabSelectorIsolated = "#__APP > div > div > div.orderform > div > div > div.tradeSwitchWrap > div.tradeItemSwitchWrap[data-testid=\"IsolatedTab\"]";
+
+
+    let ensureDoWheelBinds = true;
+    let frameWaitCap = Math.floor(1000 / milisecondsBetweenUpdates);
+    let frameWaitWheel = frameWaitCap;
+    let frameWaitLimit = frameWaitCap;
+    let ensureDoLimitOnclicks = true;
+    let frameWaitTab = 0;
+
     function GetAvailable(selector) {
         let avail = document.querySelector(selector).innerText.replaceAll(',','');
         if (avail.includes(" ")) {
@@ -221,7 +234,7 @@
         if (event.key == buySellKey || event.key == instantBuyKey || event.key == instantSellKey) {
             let thisBuyOrSellButton = buyOrSellButton;
             if (event.key != buySellKey) {
-                MainLoop(false);
+                //MainLoop(false);
                 let amountBox = buy_amount_box;
                 let priceBox = buy_price_box;
                 let fundsSelector = buyFundsSelector;
@@ -259,6 +272,18 @@
             if (button != null) button.dispatchEvent( new Event( 'click', { bubbles: true } ) );
             prevent = true;
         }
+        if (event.key == resetKeybindsKey) {
+            ensureDoWheelBinds = true;
+            frameWaitWheel = frameWaitCap;
+            frameWaitLimit = frameWaitCap;
+            ensureDoLimitOnclicks = true;
+            frameWaitTab = 0;
+            prevent = true;
+        }
+        //if (event.key == "5") {
+        //    alert("");
+        //    prevent = true;
+        //}
         if (prevent) {
             event.preventDefault();
             return false;
@@ -311,6 +336,9 @@
         //        }
         //    }
         //}
+        DoTabOnclicks();
+        DoLimitOnclicks();
+        DoWheelBinds();
         let sellFundsAvailElement = document.querySelector(sellFundsSelector);
         if (sellFundsAvailElement != null) {
             let sellAvail = sellFundsAvailElement.innerText;
@@ -346,7 +374,7 @@
                 InitOtherCanvas(emptyBox);
             }
         }
-        if (my_space == null) {
+        else if (my_space == null) {
             let emptyBox = document.querySelector(emptySpaceSelector);
             if (emptyBox != null) {
                 InitCanvas(emptyBox);
@@ -638,36 +666,76 @@
             }
         }
     }
-    function InitialWork(force) {
-        if (!initialised || force) {
+    function DoWheelBinds() {
+        if (ensureDoWheelBinds) {
             sell_price_box = document.getElementById("FormRow-SELL-price");
             buy_price_box = document.getElementById("FormRow-BUY-price");
             sell_amount_box = document.getElementById("FormRow-SELL-quantity");
             buy_amount_box = document.getElementById("FormRow-BUY-quantity");
-            let emptyBox = document.querySelector(emptySpaceSelector);
-            let otherEmptyBox = document.querySelector(myOtherEmptySpaceSelector);
-            let boxes = [sell_price_box, buy_price_box, sell_amount_box, buy_amount_box, emptyBox, otherEmptyBox];
-            if (!initialised) {
-                if (boxes.includes(null)) {
-                    setTimeout(()=>{InitialWork(false);}, 50);
-                    return;
-                }
-                InitCanvas(emptyBox);
-                InitOtherCanvas(otherEmptyBox);
-                //document.removeEventListener("mousemove", InitialWork);
-                document.addEventListener("keydown", GenericKeyDown, true);
-                document.querySelector(limitOfferButtonSelector).addEventListener("mouseup", (event) => {setTimeout(()=>{InitialWork(true);}, 50);}, true);
-                initialised = true;
-                MainLoop();
-            }
+            if ([sell_price_box, buy_price_box, sell_amount_box, buy_amount_box].includes(null) || (frameWaitWheel-- > 0)) return;
+            try {
+                sell_price_box.parentElement.removeEventListener("wheel", WheelBindSellPrice, true);
+            } catch {}
+            try {
+                buy_price_box.parentElement.removeEventListener("wheel", WheelBindBuyPrice, true);
+            } catch {}
+            try {
+                sell_amount_box.parentElement.removeEventListener("wheel", WheelBindSellAmount, true);
+            } catch {}
+            try {
+                buy_amount_box.parentElement.removeEventListener("wheel", WheelBindBuyAmount, true);
+            } catch {}
             sell_price_box.parentElement.addEventListener("wheel", WheelBindSellPrice, true);
             buy_price_box.parentElement.addEventListener("wheel", WheelBindBuyPrice, true);
             sell_amount_box.parentElement.addEventListener("wheel", WheelBindSellAmount, true);
             buy_amount_box.parentElement.addEventListener("wheel", WheelBindBuyAmount, true);
-            return;
+            ensureDoWheelBinds = false;
+            frameWaitWheel = frameWaitCap;
         }
-        //if (!force) setTimeout(()=>{InitialWork(false);}, 50);
     }
-    InitialWork(false);
-    //document.addEventListener("mousemove", (event) => {InitialWork(false);});
+    function DoLimitOnclicks() {
+        if (ensureDoLimitOnclicks) {
+            let limitButton = document.querySelector(limitOfferButtonSelector);
+            if (limitButton != null) {
+                if (frameWaitLimit-- > 0) return;
+                limitButton.addEventListener("mouseup", (event) => {setTimeout(()=>{ensureDoWheelBinds = true;}, 100);}, true);
+                ensureDoLimitOnclicks = false;
+                frameWaitLimit = frameWaitCap;
+            }
+        }
+    }
+    let doneSpotOnclick = false;
+    let doneCrossOnclick = false;
+    let doneIsolatedOnclick = false;
+    let maxFramesToWaitForTabs = 500;
+    function DoTabOnclicks() {
+        if (!doneSpotOnclick) {
+            let spotTab = document.querySelector(orderTypeTabSelectorSpot);
+            if (spotTab != null) {
+                spotTab.addEventListener("mouseup", (event) => {setTimeout(()=>{ensureDoLimitOnclicks = true; ensureDoWheelBinds = true;}, 100);}, true);
+                doneSpotOnclick = true;
+            }
+        }
+        if (frameWaitTab < maxFramesToWaitForTabs) {
+            if (!doneCrossOnclick) {
+                let crossTab = document.querySelector(orderTypeTabSelectorCross);
+                if (crossTab != null) {
+                    crossTab.addEventListener("mouseup", (event) => {setTimeout(()=>{ensureDoLimitOnclicks = true; ensureDoWheelBinds = true;}, 100);}, true);
+                    doneCrossOnclick = true;
+                }
+            }
+            if (!doneIsolatedOnclick) {
+                let isolatedTab = document.querySelector(orderTypeTabSelectorIsolated);
+                if (isolatedTab != null) {
+                    isolatedTab.addEventListener("mouseup", (event) => {setTimeout(()=>{ensureDoLimitOnclicks = true; ensureDoWheelBinds = true;}, 100);}, true);
+                    doneIsolatedOnclick = true;
+                }
+            }
+            if (doneIsolatedOnclick && doneCrossOnclick) frameWaitTab = maxFramesToWaitForTabs;
+            frameWaitTab++
+        }
+    }
+    document.addEventListener("keydown", GenericKeyDown, true);
+    MainLoop(true);
+    //InitialWork(false);
 })();
