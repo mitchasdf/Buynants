@@ -2,7 +2,7 @@
 // @name         Buynants
 // @namespace    http://tampermonkey.net/
 // @version      0.1
-// @description  Tools for fast-paced, volatile spot trading on binance. Currently breaks if clicking on leverage tabs, sorry.
+// @description  Tools for fast-paced, volatile spot trading on binance.com
 // @author       You
 // @match        https://www.binance.com/*
 // @icon         https://www.google.com/s2/favicons?sz=64&domain=binance.com
