@@ -439,23 +439,29 @@
                     }
                     for (let i = 0; i < oneSecChart.length; i++) {
                         let stick = oneSecChart[i];
-                        let strokes = badStrokes;
-                        let semiStrokes = semiBadStrokes;
-                        if (stick.close > stick.open) {
-                            strokes = goodStrokes;
-                            semiStrokes = semiGoodStrokes;
+                        let strokes = goodStrokes;
+                        let semiStrokes = semiGoodStrokes;
+                        if (stick.close < stick.open) {
+                            strokes = badStrokes;
+                            semiStrokes = semiBadStrokes;
                         }
                         let stickHigh = (stick.high - allTimeLow) * heightScale;
                         let stickLow = (stick.low - allTimeLow) * heightScale;
                         let stickOpen = (stick.open - allTimeLow) * heightScale;
                         let stickClose = (stick.close - allTimeLow) * heightScale;
                         let thisX = oneSecChartWidth - (i + 0.5);
+                        let stagnant = false;
                         if (stickOpen == stickClose) {
-                            stickOpen -= 0.25;
-                            stickClose += 0.25;
-                            stagnants.push({"start":[thisX,oneSecChartHeight - stickOpen],"end":[thisX,oneSecChartHeight - stickClose]});
+                            stickOpen -= 0.5;
+                            stickClose += 0.5;
+                            if (stickHigh == stickLow) {
+                                stickOpen += 0.25;
+                                stickClose -= 0.25;
+                                stagnants.push({"start":[thisX,oneSecChartHeight - stickOpen],"end":[thisX,oneSecChartHeight - stickClose]});
+                                stagnant = true;
+                            }
                         }
-                        else {
+                        if (!stagnant) {
                             strokes.push({"start":[thisX,oneSecChartHeight - stickOpen],"end":[thisX,oneSecChartHeight - stickClose]});
                             semiStrokes.push({"start":[thisX,oneSecChartHeight - stickHigh],"end":[thisX,oneSecChartHeight - stickLow]});
                         }
